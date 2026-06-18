@@ -8,27 +8,25 @@
     content="Noti Inclusivos: espacio informativo del CREBE Señor de los Milagros - Ucayali para compartir comunicados, orientaciones y recursos sobre educación inclusiva."
   >
   <title>Noti Inclusivos | CREBE Ucayali</title>
-  <link rel="stylesheet" href="../estilos.css?v=1">
-  <link rel="stylesheet" href="estilos.css?v=1">
+  <link rel="stylesheet" href="estilos.css?v=2">
 </head>
 
-<body class="pagina-noti">
+<body>
   <a class="salto-contenido" href="#contenido-principal">Ir al contenido</a>
 
-  <header class="cabecera cabecera-noti">
+  <header class="cabecera" id="inicio">
     <nav class="navegacion" aria-label="Navegación principal">
-      <a class="marca" href="https://crebeucayali.weebly.com/" aria-label="Ir a la plataforma principal">
+      <a class="marca" href="https://crebeucayali.weebly.com/" aria-label="Ir a la plataforma principal CREBE Ucayali">
         <span class="marca-icono" aria-hidden="true">NI</span>
         <span>Noti Inclusivos</span>
       </a>
 
-      <div class="enlaces-noti">
-        <a class="enlace-cabecera" href="../index.html">Banco Digital Accesible</a>
-        <a class="enlace-cabecera" href="https://crebeucayali.weebly.com/contacto.html">Contacto</a>
+      <div class="enlaces-cabecera">
+        <a class="enlace-cabecera" href="contacto.html">Contacto</a>
       </div>
     </nav>
 
-    <div class="portada portada-noti">
+    <div class="portada">
       <div class="bloque-institucional" aria-label="Identidad institucional">
         <img
           class="logo-crebe"
@@ -41,7 +39,7 @@
         </div>
       </div>
 
-      <p class="etiqueta">Boletín educativo inclusivo</p>
+      <p class="etiqueta-superior">Boletín educativo inclusivo</p>
       <h1>Noti Inclusivos</h1>
       <p class="subtitulo">
         Espacio para compartir comunicados, orientaciones, recursos y novedades vinculadas
@@ -54,10 +52,10 @@
     <section class="panel-busqueda panel-noti" aria-labelledby="titulo-noti">
       <div class="panel-encabezado panel-noti-encabezado">
         <div>
-          <p class="sobretitulo">Publicaciones</p>
+          <p class="seccion-etiqueta">Publicaciones</p>
           <h2 id="titulo-noti">Explora las notas informativas</h2>
-          <p class="texto-panel">
-            Usa el buscador o el filtro para ubicar comunicados, orientaciones y recursos.
+          <p class="descripcion-panel">
+            Usa el buscador o el filtro para ubicar comunicados, orientaciones, recursos y avisos de interés para docentes, familias y comunidad educativa.
           </p>
         </div>
       </div>
@@ -65,7 +63,7 @@
       <div class="controles-noti" aria-label="Filtros de publicaciones">
         <label class="campo-noti">
           <span>Buscar</span>
-          <input id="busqueda-noti" type="search" placeholder="Buscar por título o contenido">
+          <input id="busqueda-noti" type="search" placeholder="Buscar por título, categoría o contenido">
         </label>
 
         <label class="campo-noti">
@@ -77,15 +75,14 @@
       </div>
 
       <p id="contador-noti" class="contador-noti" aria-live="polite"></p>
-
       <div id="lista-noti" class="grid-noti" aria-live="polite"></div>
     </section>
 
     <section class="bloque-orientacion" aria-labelledby="titulo-orientacion">
-      <p class="sobretitulo">Uso institucional</p>
+      <p class="seccion-etiqueta">Uso institucional</p>
       <h2 id="titulo-orientacion">¿Cómo utilizar este espacio?</h2>
       <p>
-        Este módulo puede funcionar como boletín digital del CREBE para publicar avisos,
+        Este módulo funciona como boletín digital del CREBE para publicar avisos,
         orientaciones breves, enlaces a capacitaciones y recursos de apoyo para docentes,
         familias y comunidad educativa.
       </p>
@@ -93,13 +90,53 @@
   </main>
 
   <footer>
+    <div class="footer-contenido">
+      <div class="footer-bloque footer-identidad">
+        <img
+          class="logo-footer"
+          src="https://raw.githubusercontent.com/gabriel-lsp/banco-digital-lsp/main/logo-crebe.png"
+          alt="Logo del CREBE Señor de los Milagros - Ucayali"
+        >
+        <div>
+          <h2>Noti Inclusivos</h2>
+          <p>
+            Boletín digital para compartir comunicados, orientaciones y recursos vinculados a la inclusión educativa.
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bloque">
+        <h2>Enlaces</h2>
+        <p>
+          <a href="https://crebeucayali.weebly.com/">Inicio principal</a><br>
+          <a href="contacto.html">Contacto</a><br>
+          <a href="https://gabriel-lsp.github.io/banco-digital-accesible/">Banco Digital Accesible</a><br>
+          <a href="https://gabriel-lsp.github.io/materiales-educativos-accesibles/">Material Educativo Accesible</a><br>
+          <a href="https://gabriel-lsp.github.io/juegos-interactivos-accesibles/">Juegos Educativos Accesibles</a><br>
+          <a href="https://gabriel-lsp.github.io/capacitaciones-crebe-ucayali/">Capacitaciones CREBE</a><br>
+          <a href="https://gabriel-lsp.github.io/noti-inclusivos/">Noti Inclusivos</a>
+        </p>
+      </div>
+
+      <div class="footer-bloque">
+        <h2>Contacto CREBE</h2>
+        <p>
+          CREBE "Señor de los Milagros" - Ucayali<br>
+          Teléfono: pendiente<br>
+          Correo: senordelosmilagroscrebe@gmail.com<br>
+          Horario: lunes a viernes, 8:00 a.m. - 12:00 p.m.<br>
+          Dirección: pendiente<br>
+          <a href="https://www.facebook.com/CREBESM" target="_blank" rel="noopener noreferrer">Facebook</a><br>
+          TikTok: pendiente
+        </p>
+      </div>
+    </div>
+
     <div class="footer-final">
-      <p>
-        © 2026 Gabriel Berrospi. Desarrollo original. Uso institucional autorizado al CREBE "Señor de los Milagros" - Ucayali.
-      </p>
+      <p>© 2026 Gabriel Berrospi. Desarrollo original. Uso institucional autorizado al CREBE "Señor de los Milagros" - Ucayali.</p>
     </div>
   </footer>
 
-  <script src="app.js?v=1" defer></script>
+  <script src="app.js?v=2" defer></script>
 </body>
 </html>
