@@ -1,37 +1,44 @@
 [
   {
-    "titulo": "Primera Capacitación Virtual CREBE 2026",
+    "titulo": "Capacitaciones CREBE 2026",
     "categoria": "Capacitaciones",
     "fecha": "2026",
-    "resumen": "Espacio informativo para comunicar capacitaciones virtuales, temas de formación y enlaces de acceso dirigidos a docentes, familias y comunidad educativa.",
+    "resumen": "Acceso a las jornadas de capacitación del CREBE, organizadas por fecha y con recursos como videos, flyers, infografías y diapositivas.",
     "enlace": "https://gabriel-lsp.github.io/capacitaciones-crebe-ucayali/"
   },
   {
     "titulo": "Banco Digital Accesible",
     "categoria": "Recursos digitales",
     "fecha": "2026",
-    "resumen": "Acceso organizado a recursos de Lengua de Señas Peruana y sistema Braille para fortalecer la consulta educativa y el apoyo a la inclusión.",
-    "enlace": "../index.html"
+    "resumen": "Espacio central que organiza recursos digitales accesibles vinculados a Lengua de Señas Peruana, Braille, materiales y juegos educativos.",
+    "enlace": "https://gabriel-lsp.github.io/banco-digital-accesible/"
   },
   {
     "titulo": "Materiales Educativos Accesibles",
     "categoria": "Materiales",
     "fecha": "2026",
-    "resumen": "Módulo orientado a reunir materiales visuales, rutinas, pictogramas, generadores y apoyos para docentes y familias.",
+    "resumen": "Repositorio de materiales visuales, generadores, pictogramas, rutinas y apoyos pedagógicos para docentes, familias y estudiantes.",
     "enlace": "https://gabriel-lsp.github.io/materiales-educativos-accesibles/"
   },
   {
-    "titulo": "Juegos Educativos Accesibles",
+    "titulo": "Juegos Interactivos Accesibles",
     "categoria": "Juegos",
     "fecha": "2026",
-    "resumen": "Espacio para actividades interactivas que favorecen el aprendizaje mediante recursos lúdicos, visuales y accesibles.",
+    "resumen": "Módulo de actividades interactivas para favorecer el aprendizaje mediante retos visuales, lúdicos y accesibles.",
     "enlace": "https://gabriel-lsp.github.io/juegos-interactivos-accesibles/"
   },
   {
     "titulo": "Orientaciones para el uso de recursos inclusivos",
     "categoria": "Orientaciones",
     "fecha": "2026",
-    "resumen": "Recomendaciones breves para seleccionar recursos digitales considerando accesibilidad, claridad visual, acompañamiento pedagógico y necesidades del estudiante.",
+    "resumen": "Recomendaciones breves para seleccionar recursos digitales considerando claridad visual, accesibilidad, acompañamiento pedagógico y necesidades del estudiante.",
     "enlace": "#"
+  },
+  {
+    "titulo": "Pictogramas y apoyos visuales",
+    "categoria": "Comunicación visual",
+    "fecha": "2026",
+    "resumen": "Acceso a herramientas de búsqueda de pictogramas y apoyos visuales para favorecer rutinas, anticipación, comprensión y comunicación.",
+    "enlace": "https://gabriel-lsp.github.io/materiales-educativos-accesibles/pictogramas.html"
   }
 ]
