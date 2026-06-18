@@ -1,17 +1,33 @@
 # Alcance comunicacional
 
-Este documento precisa el alcance comunicacional del proyecto Noti Inclusivos.
+Este documento describe el alcance comunicacional del repositorio Noti Inclusivos.
 
-Noti Inclusivos funciona como un boletín digital educativo orientado a difundir información, recursos y orientaciones vinculadas a la accesibilidad, la inclusión educativa y la atención a la diversidad.
+Noti Inclusivos es un boletín digital educativo de carácter personal. Su finalidad es organizar y difundir publicaciones, orientaciones, comunicados educativos, recursos accesibles y contenidos de sensibilización vinculados a la inclusión educativa y la atención a la diversidad.
 
-El proyecto puede apoyar la comunicación con docentes, familias, profesionales de apoyo y comunidad educativa, especialmente cuando se requiere organizar información de manera clara, visual y accesible.
+## Propósito del boletín
 
-Su alcance es informativo, educativo y de sensibilización. No reemplaza documentos oficiales, resoluciones, directivas institucionales, comunicaciones formales ni canales administrativos cuando estos sean necesarios.
+El boletín puede utilizarse para compartir información educativa de manera clara, accesible y ordenada.
 
-Los contenidos publicados deben presentarse con lenguaje claro, respetuoso y pertinente. Se recomienda evitar expresiones que puedan generar confusión, prometer resultados, sustituir el criterio profesional o presentar recomendaciones generales como si fueran indicaciones individualizadas.
+Puede apoyar la difusión de actividades formativas, materiales de orientación, recursos digitales, campañas educativas, recomendaciones pedagógicas y contenidos de sensibilización.
 
-Cuando se difundan orientaciones educativas, estas deben entenderse como apoyo general. Cada institución, docente o familia debe adecuar la información a su contexto, necesidades y posibilidades reales.
+## Público al que se dirige
 
-El boletín puede incluir comunicados, flyers, infografías, enlaces, avisos de capacitación, recursos descargables, recomendaciones pedagógicas y materiales de sensibilización. Todo contenido externo debe conservar su fuente y ser utilizado de acuerdo con sus condiciones de uso.
+El recurso puede ser útil para docentes, familias, directivos, profesionales de apoyo, estudiantes, instituciones educativas y personas interesadas en temas de accesibilidad, inclusión educativa y atención a la diversidad.
 
-Noti Inclusivos puede fortalecerse con criterios de accesibilidad, como textos breves, contraste adecuado, organización clara, lectura sencilla, imágenes con descripción, enlaces comprensibles y navegación compatible con distintos dispositivos.
+## Uso responsable de la información
+
+Los contenidos publicados deben mantener un lenguaje claro, respetuoso y accesible.
+
+Se recomienda evitar afirmaciones confusas, información sin fuente o publicaciones que puedan interpretarse como disposiciones oficiales cuando no correspondan.
+
+## Comunicación complementaria
+
+Noti Inclusivos no reemplaza los canales formales de comunicación institucional cuando estos sean requeridos. Debe entenderse como un recurso complementario de difusión, orientación y apoyo educativo.
+
+## Revisión de publicaciones
+
+Antes de publicar una nota, comunicado o recurso, se recomienda revisar su pertinencia, claridad, fuente, fecha, público destinatario y finalidad educativa.
+
+## Accesibilidad comunicacional
+
+Se recomienda utilizar textos breves, títulos claros, contraste adecuado, imágenes comprensibles, enlaces identificables y una organización visual sencilla.
