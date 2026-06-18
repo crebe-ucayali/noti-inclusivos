@@ -11,7 +11,7 @@ Antes de publicar un contenido, se recomienda verificar:
 - Que el mensaje sea claro y pertinente para la comunidad educativa.
 - Que la información sea actual, necesaria y comprensible.
 - Que el material tenga fuente identificable.
-- Que exista autorización cuando se usen logos, fotografías, nombres institucionales o documentos internos.
+- Que exista autorización cuando se usen logos, fotografías, nombres de entidades o documentos de terceros.
 - Que el contenido no exponga datos personales sensibles.
 - Que el lenguaje sea respetuoso, inclusivo y accesible.
 - Que los enlaces funcionen correctamente.
@@ -21,7 +21,7 @@ Antes de publicar un contenido, se recomienda verificar:
 
 El boletín puede incluir:
 
-- Comunicados educativos.
+- Publicaciones educativas.
 - Orientaciones para docentes y familias.
 - Información sobre capacitaciones.
 - Recursos accesibles.
@@ -36,11 +36,11 @@ Los comunicados, flyers, infografías, documentos o materiales externos deben co
 
 Si se realiza una adaptación, resumen o versión de lectura sencilla, debe indicarse que se trata de una adaptación.
 
-## Contexto institucional
+## Contexto de uso
 
-Cuando el contenido esté relacionado con actividades del CREBE "Señor de los Milagros" - Ucayali u otra institución, se recomienda verificar la pertinencia de su publicación y conservar la referencia correspondiente.
+Cuando el contenido esté relacionado con actividades de una institución, entidad o fuente externa, se recomienda verificar la pertinencia de su publicación y conservar la referencia correspondiente.
 
-Dicha referencia debe entenderse como contexto de uso o coordinación, no como transferencia de autoría ni titularidad del proyecto digital.
+Dicha referencia debe entenderse como contexto de uso, procedencia o coordinación, no como transferencia de autoría ni titularidad del proyecto digital.
 
 ## Campos mínimos sugeridos
 
