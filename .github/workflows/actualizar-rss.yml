@@ -1,0 +1,30 @@
+name: Actualizar noticias RSS
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  actualizar-rss:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Actualizar noticias RSS
+        run: node scripts/actualizar-rss.js
+
+      - name: Guardar cambios
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Actualizar noticias RSS"
+          file_pattern: noticias-rss.json
