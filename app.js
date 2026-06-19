@@ -83,6 +83,8 @@ function mostrarPublicaciones() {
 }
 
 function cargarCategorias() {
+  filtroCategoria.innerHTML = '<option value="todas">Todas</option>';
+
   const categorias = [...new Set(publicaciones.map((publicacion) => publicacion.categoria || "General"))].sort((a, b) => {
     return a.localeCompare(b, "es");
   });
@@ -95,21 +97,48 @@ function cargarCategorias() {
   });
 }
 
+async function cargarJson(ruta) {
+  const respuesta = await fetch(ruta);
+
+  if (!respuesta.ok) {
+    return [];
+  }
+
+  return respuesta.json();
+}
+
+function unirSinDuplicados(listaManual, listaRss) {
+  const unicas = [];
+  const claves = new Set();
+
+  [...listaManual, ...listaRss].forEach((publicacion) => {
+    const clave = publicacion.enlace && publicacion.enlace !== "#"
+      ? publicacion.enlace
+      : `${publicacion.titulo}-${publicacion.fuente}`;
+
+    if (!claves.has(clave)) {
+      claves.add(clave);
+      unicas.push(publicacion);
+    }
+  });
+
+  return unicas;
+}
+
 async function iniciarNotiInclusivos() {
   try {
-    const respuesta = await fetch("noticias.json?v=3");
+    const [manuales, rss] = await Promise.all([
+      cargarJson("noticias.json?v=4"),
+      cargarJson("noticias-rss.json?v=4")
+    ]);
 
-    if (!respuesta.ok) {
-      throw new Error("No se pudo cargar noticias.json");
-    }
-
-    publicaciones = await respuesta.json();
+    publicaciones = unirSinDuplicados(manuales, rss);
     cargarCategorias();
     mostrarPublicaciones();
   } catch (error) {
     listaNoti.innerHTML = `
       <p class="estado-vacio">
-        No se pudieron cargar las publicaciones. Verifica que el archivo noticias.json esté disponible.
+        No se pudieron cargar las publicaciones. Verifica que los archivos noticias.json y noticias-rss.json estén disponibles.
       </p>
     `;
     contadorNoti.textContent = "";
