@@ -1,29 +1,77 @@
 {
-  "actualizado": "2026-06-20",
+  "actualizado": "2026-06-21T11:33:40.332565+00:00",
   "noticias": [
     {
-      "titulo": "Búsqueda inicial sobre inclusión educativa",
-      "fuente": "Google News",
-      "fecha": "2026-06-20",
-      "tema": "inclusión educativa",
-      "resumen": "Entrada inicial del portal. Cuando GitHub Actions se ejecute, este archivo será reemplazado por noticias actualizadas desde fuentes RSS.",
-      "url": "https://news.google.com/search?q=inclusi%C3%B3n%20educativa%20Per%C3%BA"
+      "titulo": "Educación inclusiva en el Perú: avances y formación para docentes - VIU - Universidad Internacional de Valencia",
+      "fuente": "VIU - Universidad Internacional de Valencia",
+      "fecha": "2025-11-20",
+      "tema": "inclusión educativa Perú",
+      "resumen": "Educación inclusiva en el Perú: avances y formación para docentes &nbsp;&nbsp; VIU - Universidad Internacional de Valencia",
+      "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNV2hnaldNMFA0U045aDdzQ2tfakU0UmFUMXZKWFc4N0Q3OWM4MFN2czB0YTgwNnVVeDZ0TE9FdFJuQW1nb3dXcGMxelFNcXRNMjNPOU5GNWVDR3NrNzdXcmlIREtTQXRlZFAzM3B4VTZVVGVaQi1aM1pjUGlsel9QelpnLVZQT2ZyMU1QSXBLMXVVamtLd3dkSjVJaG5wMzNSOWlrdVItNXRnQlpZN2JFOG1ob256T0ltejNkdVJmTUFEeW9LVWc?oc=5"
     },
     {
-      "titulo": "Consulta inicial sobre educación inclusiva en MINEDU",
-      "fuente": "MINEDU / Gob.pe",
-      "fecha": "2026-06-20",
+      "titulo": "La inclusión educativa en el Perú sigue fallando desde su base estructural - Gan@Más",
+      "fuente": "Gan@Más",
+      "fecha": "2026-04-19",
+      "tema": "inclusión educativa Perú",
+      "resumen": "La inclusión educativa en el Perú sigue fallando desde su base estructural &nbsp;&nbsp; Gan@Más",
+      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNZU40YW55ZFBHWWE0Vl9TSjZVdmVmQ290eHZuUFRVbFFfQ2xqOWFfNk5wRjBjSHZTUkRESTl3LUhMZkJ5OWYyV0pWdXpiYmpSSF8zVkp5YzQ0X3NXcWtxUDFKVVpsSS0xU3Ffelp0LXFqRGFwME1iQUtQY21KcGZrRF9mUXF4dmdTOEtjWVlRY1JWYlFZSDY3eTJlaGxUZUVQa2dIYzh3UDI?oc=5"
+    },
+    {
+      "titulo": "Escuelas de América Latina avanzan en inclusión con nuevo programa de mentorías impulsado por la red RIINEE - UNESCO",
+      "fuente": "UNESCO",
+      "fecha": "2026-04-01",
+      "tema": "inclusión educativa Perú",
+      "resumen": "Escuelas de América Latina avanzan en inclusión con nuevo programa de mentorías impulsado por la red RIINEE &nbsp;&nbsp; UNESCO",
+      "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxPZ0RoVGhpRWx5STNNSi1CTWJ0V0dFTm9yQmZCMnplZWlaOUZ2cmtWYTFFYlU2aWhMNE80RUdqWllUTjBuWVJoek9kTGdoR1pYQ0IyYVFZWXhkZUJKOVBPNWc5NUg0SEEwcWRaUXV3NTFZU0JPMi1KWmdjbllNdHEzc01hcTlZYVozSXhPREFwaHNRRjVlXzdwdDBla2w0em5tZWdTalgtNlItRkpubVZCbGRnd0ZzQlFFU1p3N2p0cUJEd1J2U19MUmZ5VmRUU2Zk?oc=5"
+    },
+    {
+      "titulo": "Perú reafirma en Barcelona su apuesta por una educación inclusiva, innovadora y con equidad - El Peruano",
+      "fuente": "El Peruano",
+      "fecha": "2026-05-28",
+      "tema": "inclusión educativa Perú",
+      "resumen": "Perú reafirma en Barcelona su apuesta por una educación inclusiva, innovadora y con equidad &nbsp;&nbsp; El Peruano",
+      "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxOcXFPcGRWZGpzbjVCOXp3aWFCNTJsdlR6YXoteGpWT0lSZHdiQXByazRCcHQxOHBWcHdtQnlaODZQT3JsNjhNSDRTSG9qaE9TZDNjWnp2YVpwcE54QWVrczJWZzFuYUdCUHhrTkZnSWhVTXU0TXZaVldzQy1GR2JXNlBvMl9sVkdjUmhYU3h4Z1didHRTS2hpUkdEcUtTSkg0WlhQVi03a2lGODE2NkduSGFiX2F1YW1WV19CcU9OYUh3eFhM?oc=5"
+    },
+    {
+      "titulo": "Educación inclusiva y especial: ¿por qué esta carrera es cada vez más demandada? - La República",
+      "fuente": "La República",
+      "fecha": "2026-01-13",
+      "tema": "inclusión educativa Perú",
+      "resumen": "Educación inclusiva y especial: ¿por qué esta carrera es cada vez más demandada? &nbsp;&nbsp; La República",
+      "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxPR28xR2RNU1I4TkNiUUR1VFdBazlUMUZvbjFieDJDb2xtNWpjZm13a1hDallZQ1Q0MHBHa0tyclZjMW1ZaGpGS1VfaklrZU1rR016a2gxWm5QUUxHZ3I0TVlfZzJXdHdaYnRiZmx3ZlJzWTlDbUlpMEF6MWg0Y2M2eERfMDFnUUJjVGVtVmRPMC1XdmtYb2V2THVXSnh4TWxOanBwRS1kUFgwcHYxdnVtTjY0MG5fbmx5OVJ6ZnpOakVfakloQ3NELWhpVXhHT0ltVk1jRUp6emNjUUszSDJ3UENCTVJ0TU56?oc=5"
+    },
+    {
+      "titulo": "Educación inclusiva en el Perú, una ley avanzada en el papel pero ausente en las aulas - altavoz.pe",
+      "fuente": "altavoz.pe",
+      "fecha": "2025-12-12",
+      "tema": "inclusión educativa Perú",
+      "resumen": "Educación inclusiva en el Perú, una ley avanzada en el papel pero ausente en las aulas &nbsp;&nbsp; altavoz.pe",
+      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOX3VPLW5tUDVEeUQ3UmpEWWJyRU83d0t1TU8xSXQzdWxvZXNIbU11emJiTzJVWUEzOEFUR054M3B2dmpGSnhBZHNENnRKOF9IdW0xOWZqa0ZrTlBveGRUTk5jMWFDOFF4MFlOcEFzbi1LRUdBYjR1UVR0X1JNUjB3OFNHQjVXQjhEYlAtZ25XTkpNcE9MN1RYN2EzdHNlTmlidlhBdGUtZ0hBZW15MngzU0NPQQ?oc=5"
+    },
+    {
+      "titulo": "Minedu capacita a más de 1300 especialistas para impulsar la educación inclusiva en las escuelas - diariouno.pe",
+      "fuente": "diariouno.pe",
+      "fecha": "2026-06-04",
       "tema": "MINEDU educación inclusiva",
-      "resumen": "Acceso inicial para revisar publicaciones vinculadas con educación inclusiva. Puede actualizarse automáticamente o editarse manualmente.",
-      "url": "https://www.gob.pe/busquedas?contenido[]=noticias&term=educaci%C3%B3n%20inclusiva"
+      "resumen": "Minedu capacita a más de 1300 especialistas para impulsar la educación inclusiva en las escuelas &nbsp;&nbsp; diariouno.pe",
+      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPc2cyYUVPQUJabE9hV2tESmE2Zms1SG1WM1pROEh4R09zNzFWbG53MUp1eGRCUnZkZk4ycG44MUpMYXRfdk56Z3YyV2J1VEZRekRJUjJzdkNzeFJfTE9lYk9yTVpYdjBVX3E2V2FzN1NEVFlIS2NCTV9tNUxUSFowdklMRmswMUphVzcwaXNHLTJJS1NQdnNNVlNTMENaMzRxUEFCem5tY2drTXY3dldZbUJnc3ZsTUxaUnNxSjZOaVY0Yl80aGZpNg?oc=5"
     },
     {
-      "titulo": "Consulta inicial sobre accesibilidad y discapacidad",
-      "fuente": "CONADIS / Gob.pe",
-      "fecha": "2026-06-20",
-      "tema": "discapacidad accesibilidad",
-      "resumen": "Acceso inicial para revisar información vinculada con discapacidad, accesibilidad y derechos. Puede actualizarse automáticamente o editarse manualmente.",
-      "url": "https://www.gob.pe/conadis"
+      "titulo": "Minedu y sector privado refuerzan la educación inclusiva con aula digital para CEBE Perú-Holanda - apnoticias.pe",
+      "fuente": "apnoticias.pe",
+      "fecha": "2026-06-14",
+      "tema": "MINEDU educación inclusiva",
+      "resumen": "Minedu y sector privado refuerzan la educación inclusiva con aula digital para CEBE Perú-Holanda &nbsp;&nbsp; apnoticias.pe",
+      "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQY0ZZS0prd0NVYUtwNU9WdnBLZFFyQ3RNY3RsNzBPUU9XU2NwYkpUd0dIZGxjVXFXWFJuZ0JkWDY0RkFzUUJGY1pFZFBlV0QyX2FyVWwtaFNuU3Bfa1lsTjZLOWFWeDFMQ0pJS01XSG9rR3dDU0FWT3VRZlQ4N2V6YmRzNzZSNGxyNE9HVnhGMGVZMVpUS0FVZTlEdDVvVkE4WGZLRWhyOU53UEtwdGF2T3JaaDhYZW1XM3dUQjd3RHgzS2F6Z2Y4MnJR?oc=5"
+    },
+    {
+      "titulo": "Indicador MC-07.01 Capacitación EBE - Campañas - Ministerio de Educación - Plataforma del Estado Peruano - gob.pe",
+      "fuente": "gob.pe",
+      "fecha": "2026-02-09",
+      "tema": "MINEDU educación inclusiva",
+      "resumen": "Indicador MC-07.01 Capacitación EBE - Campañas - Ministerio de Educación - Plataforma del Estado Peruano &nbsp;&nbsp; gob.pe",
+      "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQUGRWME5URnVkODJmeDJKdGZ0ejBGejlfY080cTV5czhwOVgyR3hMNkZlNUE3QWFhT29SUE5NVGhEcW40V1AxU0VQeFlLRFF4LUs0bjFJTEtteTI5aG1NN2FJa1NnRFdRUHBTdkJIQ19YRTdkZEtuOXpKZEJaMVJIZnM0YVZ6OXJCSVBIaDVmRzkyaGNhRmRLUTdn?oc=5"
     }
   ]
 }
