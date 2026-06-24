@@ -2,20 +2,19 @@ const listaNoti = document.querySelector("#lista-noti");
 const busquedaNoti = document.querySelector("#busqueda-noti");
 const filtroCategoria = document.querySelector("#filtro-categoria");
 const contadorNoti = document.querySelector("#contador-noti");
+const estadoNoti = document.querySelector("#estado-noti");
 
 let publicaciones = [];
 
 function normalizar(texto) {
-  return texto
-    .toString()
+  return String(texto || "")
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
 }
 
 function escaparHtml(texto) {
-  return texto
-    .toString()
+  return String(texto || "")
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
@@ -23,17 +22,22 @@ function escaparHtml(texto) {
     .replaceAll("'", "&#039;");
 }
 
+function obtenerEnlace(publicacion) {
+  return publicacion.url || publicacion.enlace || "#";
+}
+
 function crearTarjeta(publicacion) {
   const articulo = document.createElement("article");
   articulo.className = "tarjeta-noti";
 
-  const enlaceValido = publicacion.enlace && publicacion.enlace !== "#";
+  const enlace = obtenerEnlace(publicacion);
+  const enlaceValido = enlace && enlace !== "#";
   const titulo = escaparHtml(publicacion.titulo || "Publicación sin título");
-  const categoria = escaparHtml(publicacion.categoria || "General");
+  const categoria = escaparHtml(publicacion.categoria || publicacion.tema || "General");
   const resumen = escaparHtml(publicacion.resumen || "Sin resumen disponible.");
   const fecha = escaparHtml(publicacion.fecha || "Fecha pendiente");
   const fuente = escaparHtml(publicacion.fuente || "Fuente institucional");
-  const enlace = escaparHtml(publicacion.enlace || "#");
+  const enlaceSeguro = escaparHtml(enlace);
 
   articulo.innerHTML = `
     <div>
@@ -46,7 +50,7 @@ function crearTarjeta(publicacion) {
         <p class="fecha-noti">${fecha}</p>
         <p class="fuente-noti">${fuente}</p>
       </div>
-      ${enlaceValido ? `<a class="enlace-noti" href="${enlace}" target="_blank" rel="noopener noreferrer">Ver recurso</a>` : ""}
+      ${enlaceValido ? `<a class="enlace-noti" href="${enlaceSeguro}" target="_blank" rel="noopener noreferrer">Leer noticia completa</a>` : ""}
     </div>
   `;
 
@@ -58,9 +62,10 @@ function mostrarPublicaciones() {
   const categoriaSeleccionada = filtroCategoria.value;
 
   const resultados = publicaciones.filter((publicacion) => {
-    const coincideCategoria = categoriaSeleccionada === "todas" || publicacion.categoria === categoriaSeleccionada;
+    const categoria = publicacion.categoria || publicacion.tema || "General";
+    const coincideCategoria = categoriaSeleccionada === "todas" || categoria === categoriaSeleccionada;
     const palabras = Array.isArray(publicacion.palabras) ? publicacion.palabras.join(" ") : "";
-    const contenido = normalizar(`${publicacion.titulo} ${publicacion.categoria} ${publicacion.resumen} ${publicacion.fuente || ""} ${palabras}`);
+    const contenido = normalizar(`${publicacion.titulo} ${categoria} ${publicacion.resumen} ${publicacion.fuente || ""} ${obtenerEnlace(publicacion)} ${palabras}`);
     const coincideBusqueda = contenido.includes(textoBusqueda);
 
     return coincideCategoria && coincideBusqueda;
@@ -85,7 +90,7 @@ function mostrarPublicaciones() {
 function cargarCategorias() {
   filtroCategoria.innerHTML = '<option value="todas">Todas</option>';
 
-  const categorias = [...new Set(publicaciones.map((publicacion) => publicacion.categoria || "General"))].sort((a, b) => {
+  const categorias = [...new Set(publicaciones.map((publicacion) => publicacion.categoria || publicacion.tema || "General"))].sort((a, b) => {
     return a.localeCompare(b, "es");
   });
 
@@ -104,7 +109,8 @@ async function cargarJson(ruta) {
     return [];
   }
 
-  return respuesta.json();
+  const data = await respuesta.json();
+  return Array.isArray(data) ? data : (Array.isArray(data.noticias) ? data.noticias : []);
 }
 
 function unirSinDuplicados(listaManual, listaRss) {
@@ -112,8 +118,9 @@ function unirSinDuplicados(listaManual, listaRss) {
   const claves = new Set();
 
   [...listaManual, ...listaRss].forEach((publicacion) => {
-    const clave = publicacion.enlace && publicacion.enlace !== "#"
-      ? publicacion.enlace
+    const enlace = obtenerEnlace(publicacion);
+    const clave = enlace && enlace !== "#"
+      ? enlace
       : `${publicacion.titulo}-${publicacion.fuente}`;
 
     if (!claves.has(clave)) {
@@ -128,20 +135,28 @@ function unirSinDuplicados(listaManual, listaRss) {
 async function iniciarNotiInclusivos() {
   try {
     const [manuales, rss] = await Promise.all([
-      cargarJson("noticias.json?v=4"),
-      cargarJson("noticias-rss.json?v=4")
+      cargarJson("data/noticias.json?v=" + Date.now()),
+      cargarJson("data/noticias-rss.json?v=" + Date.now())
     ]);
 
     publicaciones = unirSinDuplicados(manuales, rss);
     cargarCategorias();
     mostrarPublicaciones();
+
+    if (estadoNoti) {
+      estadoNoti.textContent = "Noticias cargadas desde la carpeta data/.";
+    }
   } catch (error) {
     listaNoti.innerHTML = `
       <p class="estado-vacio">
-        No se pudieron cargar las publicaciones. Verifica que los archivos noticias.json y noticias-rss.json estén disponibles.
+        No se pudieron cargar las publicaciones. Verifica que los archivos data/noticias.json y data/noticias-rss.json estén disponibles.
       </p>
     `;
     contadorNoti.textContent = "";
+
+    if (estadoNoti) {
+      estadoNoti.textContent = "No se pudieron cargar las noticias.";
+    }
   }
 }
 

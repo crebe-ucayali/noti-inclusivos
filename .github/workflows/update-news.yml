@@ -20,13 +20,16 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Generar noticias.json
-        run: python scripts/update_news.py
+      - name: Generar noticias en data
+        run: |
+          python scripts/update_news.py
+          mkdir -p data
+          mv noticias.json data/noticias.json
 
       - name: Confirmar cambios
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add noticias.json
+          git add data/noticias.json
           git diff --cached --quiet && echo "Sin cambios" || git commit -m "Actualizar noticias inclusivas"
           git push
