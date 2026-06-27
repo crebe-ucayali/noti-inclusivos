@@ -1,3 +1,4 @@
+import html
 import json
 import re
 import urllib.parse
@@ -22,7 +23,9 @@ MAX_TOTAL = 24
 
 
 def clean_html(text: str) -> str:
-    text = re.sub(r"<[^>]+>", " ", text or "")
+    text = html.unescape(text or "")
+    text = re.sub(r"<[^>]+>", " ", text)
+    text = text.replace("\xa0", " ")
     text = re.sub(r"\s+", " ", text).strip()
     return text
 
@@ -61,12 +64,12 @@ def fetch_query(query: str):
     root = ET.fromstring(data)
     items = []
     for item in root.findall(".//item")[:MAX_PER_QUERY]:
-        title = item.findtext("title") or ""
+        title = clean_html(item.findtext("title") or "")
         link = item.findtext("link") or ""
         pub_date = item.findtext("pubDate") or ""
         desc = clean_html(item.findtext("description") or "")
         source_el = item.find("source")
-        source = source_el.text if source_el is not None and source_el.text else source_from_url(link)
+        source = clean_html(source_el.text if source_el is not None and source_el.text else source_from_url(link))
         if not title or not link:
             continue
         items.append({
