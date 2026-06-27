@@ -1,12 +1,16 @@
 name: Actualizar noticias RSS
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: "0 */12 * * *"
-  workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: actualizar-noticias-rss
+  cancel-in-progress: false
 
 jobs:
   actualizar-rss:
@@ -14,17 +18,22 @@ jobs:
     steps:
       - name: Descargar repositorio
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Actualizar noticias RSS
-        run: node scripts/actualizar-rss.js
+      - name: Generar noticias RSS
+        run: |
+          node scripts/actualizar-rss.js
+          mkdir -p data
+          mv noticias-rss.json data/noticias-rss.json
 
       - name: Guardar cambios
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Actualizar noticias RSS"
-          file_pattern: noticias-rss.json
+          file_pattern: data/noticias-rss.json
