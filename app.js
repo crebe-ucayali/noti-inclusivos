@@ -17,6 +17,25 @@ function obtenerEnlace(publicacion) {
   return publicacion.url || publicacion.enlace || "#";
 }
 
+function limpiarResumen(resumen) {
+  const textoLimpio = String(resumen || "")
+    .replace(/&lt;[^&]*?&gt;/g, " ")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/https?:\/\/\S+/gi, " ")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#039;/gi, "'")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (!textoLimpio || textoLimpio.length < 20) {
+    return "Noticia publicada por la fuente indicada.";
+  }
+
+  return textoLimpio;
+}
+
 function obtenerTiempoFecha(fecha) {
   const textoFecha = String(fecha || "").trim();
 
@@ -87,7 +106,7 @@ function crearTarjeta(publicacion) {
 
   bloqueContenido.appendChild(crearElementoTexto("span", "etiqueta-noti", categoria));
   bloqueContenido.appendChild(crearElementoTexto("h3", "", publicacion.titulo || "Publicación sin título"));
-  bloqueContenido.appendChild(crearElementoTexto("p", "", publicacion.resumen || "Sin resumen disponible."));
+  bloqueContenido.appendChild(crearElementoTexto("p", "", limpiarResumen(publicacion.resumen)));
 
   const bloqueMeta = document.createElement("div");
   const meta = document.createElement("div");
