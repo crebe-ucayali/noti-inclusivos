@@ -344,7 +344,7 @@ async function main() {
     }
   }
 
-  await fs.writeFile("noticias-rss.json", `${JSON.stringify(unicas.slice(0, 30), null, 2)}\n`, "utf8");
+  await fs.writeFile("noticias-rss.json", `${JSON.stringify(unicas.slice(0, 60), null, 2)}\n`, "utf8");
   console.log(`Noticias RSS guardadas: ${unicas.length}`);
 }
 
