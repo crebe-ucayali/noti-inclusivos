@@ -8,6 +8,7 @@ const tituloLista = document.querySelector("#titulo-lista-noti");
 const descripcionLista = document.querySelector("#descripcion-lista-noti");
 
 const DIAS_RECIENTES = 90;
+const DIAS_RELEVANTES = 180;
 let publicaciones = [];
 
 function normalizar(texto) {
@@ -70,15 +71,27 @@ function obtenerTiempoFecha(fecha) {
   return new Date(anio, mes, dia).getTime();
 }
 
-function esReciente(publicacion) {
+function estaDentroDeDias(publicacion, dias) {
   const tiempo = obtenerTiempoFecha(publicacion.fecha);
   if (!tiempo) return false;
 
   const ahora = Date.now();
-  const limiteInferior = ahora - DIAS_RECIENTES * 24 * 60 * 60 * 1000;
+  const limiteInferior = ahora - dias * 24 * 60 * 60 * 1000;
   const margenFuturo = ahora + 24 * 60 * 60 * 1000;
 
   return tiempo >= limiteInferior && tiempo <= margenFuturo;
+}
+
+function esReciente(publicacion) {
+  return estaDentroDeDias(publicacion, DIAS_RECIENTES);
+}
+
+function esRelevanteComplementaria(publicacion) {
+  return estaDentroDeDias(publicacion, DIAS_RELEVANTES) && !esReciente(publicacion);
+}
+
+function esVisible(publicacion) {
+  return esReciente(publicacion) || esRelevanteComplementaria(publicacion);
 }
 
 function ordenarPorFechaDescendente(lista) {
@@ -128,12 +141,40 @@ function ajustarInterfazTiempo() {
   if (filtroTiempo) {
     filtroTiempo.value = "recientes";
     filtroTiempo.disabled = true;
-    filtroTiempo.closest("label")?.remove();
     filtroTiempo.style.display = "none";
   }
 
   if (tituloLista) tituloLista.textContent = "Noticias recientes";
-  if (descripcionLista) descripcionLista.textContent = `Publicaciones de los últimos ${DIAS_RECIENTES} días.`;
+  if (descripcionLista) descripcionLista.textContent = `Publicaciones de los últimos ${DIAS_RECIENTES} días y noticias relevantes hasta ${DIAS_RELEVANTES} días.`;
+}
+
+function crearBloque(titulo, descripcion, lista, mensajeVacio) {
+  const bloque = document.createElement("section");
+  bloque.className = "bloque-lista-noti";
+
+  const encabezado = document.createElement("h3");
+  encabezado.textContent = titulo;
+
+  const texto = document.createElement("p");
+  texto.className = "texto-bloque-noti";
+  texto.textContent = descripcion;
+
+  const grid = document.createElement("div");
+  grid.className = "grid-noti";
+
+  if (lista.length === 0) {
+    const vacio = document.createElement("p");
+    vacio.className = "estado-vacio";
+    vacio.textContent = mensajeVacio;
+    grid.appendChild(vacio);
+  } else {
+    lista.forEach((publicacion) => grid.appendChild(crearTarjeta(publicacion)));
+  }
+
+  bloque.appendChild(encabezado);
+  bloque.appendChild(texto);
+  bloque.appendChild(grid);
+  return bloque;
 }
 
 function mostrarPublicaciones() {
@@ -149,28 +190,37 @@ function mostrarPublicaciones() {
     const contenido = normalizar(`${publicacion.titulo} ${categoria} ${publicacion.resumen} ${publicacion.fuente || ""} ${obtenerEnlace(publicacion)} ${palabras}`);
     const coincideBusqueda = contenido.includes(textoBusqueda);
 
-    return coincideCategoria && coincideBusqueda && esReciente(publicacion);
+    return coincideCategoria && coincideBusqueda && esVisible(publicacion);
   });
 
+  const recientes = resultados.filter(esReciente);
+  const relevantes = resultados.filter(esRelevanteComplementaria);
+
   listaNoti.innerHTML = "";
+  listaNoti.style.display = "block";
 
-  if (resultados.length === 0) {
-    const vacio = document.createElement("p");
-    vacio.className = "estado-vacio";
-    vacio.textContent = `No hay noticias de los últimos ${DIAS_RECIENTES} días con esos criterios.`;
-    listaNoti.appendChild(vacio);
-  } else {
-    resultados.forEach((publicacion) => listaNoti.appendChild(crearTarjeta(publicacion)));
-  }
+  listaNoti.appendChild(crearBloque(
+    "Noticias recientes",
+    `Publicaciones de los últimos ${DIAS_RECIENTES} días.`,
+    recientes,
+    `No hay noticias de los últimos ${DIAS_RECIENTES} días con esos criterios.`
+  ));
 
-  contadorNoti.textContent = `${resultados.length} publicación(es) reciente(s) encontrada(s).`;
+  listaNoti.appendChild(crearBloque(
+    "Más noticias relevantes",
+    `Publicaciones relacionadas entre ${DIAS_RECIENTES + 1} y ${DIAS_RELEVANTES} días. No se muestran noticias anteriores a ${DIAS_RELEVANTES} días.`,
+    relevantes,
+    `No hay noticias relevantes entre ${DIAS_RECIENTES + 1} y ${DIAS_RELEVANTES} días con esos criterios.`
+  ));
+
+  contadorNoti.textContent = `${resultados.length} publicación(es) encontrada(s): ${recientes.length} reciente(s) y ${relevantes.length} relevante(s).`;
 }
 
 function cargarCategorias() {
   filtroCategoria.innerHTML = '<option value="todas">Todas</option>';
 
   const categorias = [...new Set(publicaciones
-    .filter(esReciente)
+    .filter(esVisible)
     .map((publicacion) => publicacion.categoria || publicacion.tema || "General"))]
     .sort((a, b) => a.localeCompare(b, "es"));
 
@@ -220,7 +270,7 @@ async function iniciarNotiinclusivo() {
     cargarCategorias();
     mostrarPublicaciones();
 
-    estadoNoti.textContent = `Noticias cargadas correctamente. Solo se muestran publicaciones de los últimos ${DIAS_RECIENTES} días.`;
+    estadoNoti.textContent = `Noticias cargadas correctamente. Se muestran noticias recientes de ${DIAS_RECIENTES} días y relevantes hasta ${DIAS_RELEVANTES} días.`;
   } catch (error) {
     listaNoti.innerHTML = '<p class="estado-vacio">No se pudieron cargar las publicaciones. Inténtalo nuevamente más tarde.</p>';
     contadorNoti.textContent = "";
