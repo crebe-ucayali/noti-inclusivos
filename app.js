@@ -1,14 +1,15 @@
-const listaNotiRecientes = document.querySelector("#lista-noti-recientes");
-const listaNotiArchivo = document.querySelector("#lista-noti-archivo");
+const contenedorPrincipalNoti = document.querySelector("#lista-noti");
 const busquedaNoti = document.querySelector("#busqueda-noti");
 const filtroCategoria = document.querySelector("#filtro-categoria");
 const contadorNoti = document.querySelector("#contador-noti");
-const contadorRecientes = document.querySelector("#contador-recientes");
-const contadorArchivo = document.querySelector("#contador-archivo");
 const estadoNoti = document.querySelector("#estado-noti");
 
 const DIAS_RECIENTES = 90;
 let publicaciones = [];
+let listaNotiRecientes = null;
+let listaNotiArchivo = null;
+let contadorRecientes = null;
+let contadorArchivo = null;
 
 function normalizar(texto) {
   return String(texto || "")
@@ -110,6 +111,101 @@ function crearElementoTexto(etiqueta, clase, texto) {
 
   elemento.textContent = texto;
   return elemento;
+}
+
+function aplicarEstilosBase() {
+  if (!contenedorPrincipalNoti) return;
+
+  contenedorPrincipalNoti.style.display = "block";
+  contenedorPrincipalNoti.style.overflow = "visible";
+
+  const estilo = document.createElement("style");
+  estilo.textContent = `
+    .bloque-lista-noti{
+      margin-top:34px;
+      padding-top:26px;
+      border-top:1px solid var(--borde);
+    }
+
+    .bloque-lista-noti h3{
+      margin:0;
+      color:var(--azul-900);
+      font-size:1.35rem;
+      line-height:1.25;
+    }
+
+    .texto-bloque-noti{
+      max-width:820px;
+      margin:8px 0 0;
+      color:var(--texto-suave);
+    }
+
+    .grid-noti-interna{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:18px;
+      margin-top:24px;
+      overflow:hidden;
+    }
+
+    @media(max-width:980px){
+      .grid-noti-interna{grid-template-columns:1fr;}
+    }
+  `;
+  document.head.appendChild(estilo);
+}
+
+function crearBloqueNoticias(idTitulo, titulo, descripcion) {
+  const bloque = document.createElement("section");
+  bloque.className = "bloque-lista-noti";
+  bloque.setAttribute("aria-labelledby", idTitulo);
+
+  const encabezado = document.createElement("h3");
+  encabezado.id = idTitulo;
+  encabezado.textContent = titulo;
+
+  const texto = document.createElement("p");
+  texto.className = "texto-bloque-noti";
+  texto.textContent = descripcion;
+
+  const contador = document.createElement("p");
+  contador.className = "contador";
+
+  const lista = document.createElement("div");
+  lista.className = "grid-noti-interna";
+  lista.setAttribute("aria-label", titulo);
+
+  bloque.appendChild(encabezado);
+  bloque.appendChild(texto);
+  bloque.appendChild(contador);
+  bloque.appendChild(lista);
+
+  return { bloque, contador, lista };
+}
+
+function prepararEstructuraNoticias() {
+  aplicarEstilosBase();
+  contenedorPrincipalNoti.innerHTML = "";
+
+  const recientes = crearBloqueNoticias(
+    "titulo-recientes",
+    "Noticias recientes",
+    `Publicaciones identificadas dentro de los últimos ${DIAS_RECIENTES} días, priorizando las noticias obtenidas desde fuentes RSS.`
+  );
+
+  const archivo = crearBloqueNoticias(
+    "titulo-archivo",
+    "Archivo de noticias",
+    `Publicaciones anteriores a los últimos ${DIAS_RECIENTES} días, conservadas como referencia informativa.`
+  );
+
+  contenedorPrincipalNoti.appendChild(recientes.bloque);
+  contenedorPrincipalNoti.appendChild(archivo.bloque);
+
+  listaNotiRecientes = recientes.lista;
+  listaNotiArchivo = archivo.lista;
+  contadorRecientes = recientes.contador;
+  contadorArchivo = archivo.contador;
 }
 
 function crearTarjeta(publicacion) {
@@ -245,6 +341,8 @@ function unirSinDuplicados(listaRss, listaManual) {
 
 async function iniciarNotiInclusivos() {
   try {
+    prepararEstructuraNoticias();
+
     const [manuales, rss] = await Promise.all([
       cargarJson("data/noticias.json?v=" + Date.now()),
       cargarJson("data/noticias-rss.json?v=" + Date.now())
@@ -258,15 +356,12 @@ async function iniciarNotiInclusivos() {
       estadoNoti.textContent = `Noticias cargadas correctamente. Se muestran como recientes las publicaciones de los últimos ${DIAS_RECIENTES} días.`;
     }
   } catch (error) {
-    listaNotiRecientes.innerHTML = `
+    contenedorPrincipalNoti.innerHTML = `
       <p class="estado-vacio">
         No se pudieron cargar las publicaciones. Inténtalo nuevamente más tarde.
       </p>
     `;
-    listaNotiArchivo.innerHTML = "";
     contadorNoti.textContent = "";
-    contadorRecientes.textContent = "";
-    contadorArchivo.textContent = "";
 
     if (estadoNoti) {
       estadoNoti.textContent = "No se pudieron cargar las noticias.";
