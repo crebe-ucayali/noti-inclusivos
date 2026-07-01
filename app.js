@@ -1,9 +1,13 @@
-const listaNoti = document.querySelector("#lista-noti");
+const listaNotiRecientes = document.querySelector("#lista-noti-recientes");
+const listaNotiArchivo = document.querySelector("#lista-noti-archivo");
 const busquedaNoti = document.querySelector("#busqueda-noti");
 const filtroCategoria = document.querySelector("#filtro-categoria");
 const contadorNoti = document.querySelector("#contador-noti");
+const contadorRecientes = document.querySelector("#contador-recientes");
+const contadorArchivo = document.querySelector("#contador-archivo");
 const estadoNoti = document.querySelector("#estado-noti");
 
+const DIAS_RECIENTES = 90;
 let publicaciones = [];
 
 function normalizar(texto) {
@@ -82,6 +86,17 @@ function obtenerTiempoFecha(fecha) {
   return new Date(anio, mes, dia).getTime();
 }
 
+function esNoticiaReciente(publicacion) {
+  const tiempo = obtenerTiempoFecha(publicacion.fecha);
+
+  if (!tiempo) {
+    return false;
+  }
+
+  const limite = Date.now() - DIAS_RECIENTES * 24 * 60 * 60 * 1000;
+  return tiempo >= limite;
+}
+
 function ordenarPorFechaDescendente(lista) {
   return [...lista].sort((a, b) => obtenerTiempoFecha(b.fecha) - obtenerTiempoFecha(a.fecha));
 }
@@ -133,6 +148,22 @@ function crearTarjeta(publicacion) {
   return articulo;
 }
 
+function mostrarLista(contenedor, lista, mensajeVacio) {
+  contenedor.innerHTML = "";
+
+  if (lista.length === 0) {
+    const vacio = document.createElement("p");
+    vacio.className = "estado-vacio";
+    vacio.textContent = mensajeVacio;
+    contenedor.appendChild(vacio);
+    return;
+  }
+
+  lista.forEach((publicacion) => {
+    contenedor.appendChild(crearTarjeta(publicacion));
+  });
+}
+
 function mostrarPublicaciones() {
   const textoBusqueda = normalizar(busquedaNoti.value.trim());
   const categoriaSeleccionada = filtroCategoria.value;
@@ -147,20 +178,24 @@ function mostrarPublicaciones() {
     return coincideCategoria && coincideBusqueda;
   });
 
-  listaNoti.innerHTML = "";
+  const recientes = resultados.filter(esNoticiaReciente);
+  const archivo = resultados.filter((publicacion) => !esNoticiaReciente(publicacion));
 
-  if (resultados.length === 0) {
-    const vacio = document.createElement("p");
-    vacio.className = "estado-vacio";
-    vacio.textContent = "No se encontraron publicaciones con esos criterios.";
-    listaNoti.appendChild(vacio);
-  } else {
-    resultados.forEach((publicacion) => {
-      listaNoti.appendChild(crearTarjeta(publicacion));
-    });
-  }
+  mostrarLista(
+    listaNotiRecientes,
+    recientes,
+    `No hay noticias de los últimos ${DIAS_RECIENTES} días con esos criterios.`
+  );
+
+  mostrarLista(
+    listaNotiArchivo,
+    archivo,
+    "No hay noticias en archivo con esos criterios."
+  );
 
   contadorNoti.textContent = `${resultados.length} publicación(es) encontrada(s).`;
+  contadorRecientes.textContent = `${recientes.length} noticia(s) reciente(s).`;
+  contadorArchivo.textContent = `${archivo.length} noticia(s) en archivo.`;
 }
 
 function cargarCategorias() {
@@ -189,15 +224,15 @@ async function cargarJson(ruta) {
   return Array.isArray(data) ? data : (Array.isArray(data.noticias) ? data.noticias : []);
 }
 
-function unirSinDuplicados(listaManual, listaRss) {
+function unirSinDuplicados(listaRss, listaManual) {
   const unicas = [];
   const claves = new Set();
 
-  [...listaManual, ...listaRss].forEach((publicacion) => {
+  [...listaRss, ...listaManual].forEach((publicacion) => {
     const enlace = obtenerEnlace(publicacion);
     const clave = enlace && enlace !== "#"
       ? enlace
-      : `${publicacion.titulo}-${publicacion.fuente}`;
+      : normalizar(`${publicacion.titulo}-${publicacion.fuente}`);
 
     if (!claves.has(clave)) {
       claves.add(clave);
@@ -215,20 +250,23 @@ async function iniciarNotiInclusivos() {
       cargarJson("data/noticias-rss.json?v=" + Date.now())
     ]);
 
-    publicaciones = ordenarPorFechaDescendente(unirSinDuplicados(manuales, rss));
+    publicaciones = ordenarPorFechaDescendente(unirSinDuplicados(rss, manuales));
     cargarCategorias();
     mostrarPublicaciones();
 
     if (estadoNoti) {
-      estadoNoti.textContent = "Noticias cargadas correctamente.";
+      estadoNoti.textContent = `Noticias cargadas correctamente. Se muestran como recientes las publicaciones de los últimos ${DIAS_RECIENTES} días.`;
     }
   } catch (error) {
-    listaNoti.innerHTML = `
+    listaNotiRecientes.innerHTML = `
       <p class="estado-vacio">
         No se pudieron cargar las publicaciones. Inténtalo nuevamente más tarde.
       </p>
     `;
+    listaNotiArchivo.innerHTML = "";
     contadorNoti.textContent = "";
+    contadorRecientes.textContent = "";
+    contadorArchivo.textContent = "";
 
     if (estadoNoti) {
       estadoNoti.textContent = "No se pudieron cargar las noticias.";
