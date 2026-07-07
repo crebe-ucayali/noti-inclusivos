@@ -1,73 +1,305 @@
+import html
 import json
+import re
+import urllib.parse
+import urllib.request
+import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from pathlib import Path
 
-# Noticias seleccionadas manualmente para el módulo NI.
-# Criterio: una noticia actual y el resto de semanas anteriores, evitando repetir
-# los títulos que venían apareciendo en la carga automática anterior.
+# Generador automático de noticias para el módulo NI.
+# Criterio editorial: priorizar fuentes institucionales, organismos reconocidos
+# y medios/cadenas de noticias con relevancia pública. Se excluyen blogs,
+# páginas personales, redes sociales y sitios sin referencia institucional clara.
 
-NOTICIAS = [
-    {
-        "titulo": "Elche pone en marcha su primera Escuela de Verano Inclusiva para niños de 5 a 12 años",
-        "fuente": "Cadena SER",
-        "fecha": "2026-07-06",
-        "categoria": "Inclusión y neurodiversidad",
-        "resumen": "Elche inauguró una escuela de verano inclusiva con actividades deportivas, artísticas y apoyos para niños con necesidades específicas y personas neurodivergentes. La experiencia se desarrolla hasta el 31 de julio y se plantea como piloto para futuras ediciones.",
-        "url": "https://cadenaser.com/comunitat-valenciana/2026/07/06/elche-pone-en-marcha-su-primera-escuela-de-verano-inclusiva-para-ninos-de-5-a-12-anos-radio-elche/",
-        "palabras": ["inclusión", "neurodiversidad", "actividades adaptadas", "participación"],
-    },
-    {
-        "titulo": "Personas con discapacidad de América Latina y el Caribe reclaman ser protagonistas del cambio",
-        "fuente": "El País - América Futura",
-        "fecha": "2026-06-10",
-        "categoria": "Derechos y participación",
-        "resumen": "La publicación resalta el enfoque de derechos de las personas con discapacidad y la necesidad de que participen en las decisiones que afectan su vida. El tema se vincula con accesibilidad, autonomía, educación, justicia y cambio cultural.",
-        "url": "https://elpais.com/america-futura/2026-06-10/las-personas-con-discapacidad-de-america-latina-y-el-caribe-reclaman-ser-protagonistas-del-cambio.html",
-        "palabras": ["discapacidad", "derechos", "participación", "América Latina"],
-    },
-    {
-        "titulo": "Huesca Más Inclusiva cumple diez años como proyecto de referencia en inclusión",
-        "fuente": "Cadena SER",
-        "fecha": "2026-06-08",
-        "categoria": "Accesibilidad e inclusión comunitaria",
-        "resumen": "El proyecto Huesca Más Inclusiva celebra diez años de trabajo colaborativo en accesibilidad, empleo, cultura, educación y sensibilización. La experiencia muestra cómo las alianzas entre instituciones y comunidad pueden sostener iniciativas inclusivas.",
-        "url": "https://cadenaser.com/aragon/2026/06/08/huesca-mas-inclusiva-cumple-diez-anos-consolidado-como-un-proyecto-de-referencia-en-la-provincia-y-con-proyeccion-de-futuro-radio-huesca/",
-        "palabras": ["accesibilidad", "inclusión social", "educación", "sensibilización"],
-    },
-    {
-        "titulo": "La Conferencia Iberoamericana de Educación acuerda una agenda común sobre IA y Formación Profesional",
-        "fuente": "El País",
-        "fecha": "2026-05-28",
-        "categoria": "Educación inclusiva y políticas públicas",
-        "resumen": "La XXIX Conferencia Iberoamericana de Educación aprobó una agenda común que incluye el uso ético de la inteligencia artificial, la formación profesional y la continuidad educativa. El acuerdo reafirma el compromiso regional con una educación inclusiva, equitativa y de calidad.",
-        "url": "https://elpais.com/espana/catalunya/2026-05-28/la-ministra-de-educacion-pide-en-barcelona-una-estrategia-conjunta-iberoamericana-para-los-desafios-en-ensenanza.html",
-        "palabras": ["educación inclusiva", "Iberoamérica", "políticas educativas", "IA"],
-    },
-    {
-        "titulo": "Dos docentes de Huesca son finalistas en un programa nacional por liderazgo e inclusión educativa",
-        "fuente": "Cadena SER",
-        "fecha": "2026-05-18",
-        "categoria": "Docencia e inclusión",
-        "resumen": "La primera edición del programa Docentes Referentes seleccionó a profesionales destacados por su liderazgo educativo y trabajo en educación inclusiva. La iniciativa busca visibilizar prácticas docentes con impacto positivo en el sistema educativo.",
-        "url": "https://cadenaser.com/aragon/2026/05/18/beatriz-serrano-del-ceip-montecorona-sabinanigo-y-nathalie-clavero-del-ceip-pirineos-pyrenees-huesca-finalistas-de-docentes-referentes-impulsado-por-fundacion-ibercaja-radio-huesca/",
-        "palabras": ["docentes", "educación inclusiva", "liderazgo educativo", "buenas prácticas"],
-    },
-    {
-        "titulo": "Dénia inicia la construcción del nuevo centro de educación especial Raquel Payà",
-        "fuente": "Cadena SER",
-        "fecha": "2026-04-29",
-        "categoria": "Educación especial y accesibilidad",
-        "resumen": "La colocación de la primera piedra del nuevo Centro de Educación Especial Raquel Payà marca el inicio de una infraestructura adaptada y accesible. El proyecto busca responder a necesidades históricas de estudiantes, familias y profesionales.",
-        "url": "https://cadenaser.com/comunitat-valenciana/2026/04/29/denia-coloca-la-primera-piedra-del-nuevo-raquel-paya-una-deuda-historica-con-la-educacion-especial-empieza-a-saldarse-radio-denia/",
-        "palabras": ["educación especial", "accesibilidad", "infraestructura educativa", "familias"],
-    },
+MAX_NOTICIAS = 10
+DIAS_RECIENTES = 14
+DIAS_RELEVANTES = 180
+
+GOOGLE_NEWS_RSS = "https://news.google.com/rss/search?q={query}&hl=es-419&gl=PE&ceid=PE:es-419"
+
+CONSULTAS = [
+    '("educación inclusiva" OR "educación especial") (Perú OR Latinoamérica OR Iberoamérica)',
+    '("discapacidad" OR "accesibilidad") (educación OR escuela OR estudiantes) Perú',
+    '("CEBE" OR "PRITE" OR "SAANEE") Perú educación especial',
+    'site:gob.pe ("educación inclusiva" OR "educación especial" OR discapacidad)',
+    'site:minedu.gob.pe ("educación inclusiva" OR discapacidad OR CEBE OR PRITE)',
+    'site:elperuano.pe ("educación inclusiva" OR discapacidad OR accesibilidad)',
+    'site:andina.pe ("educación inclusiva" OR discapacidad OR accesibilidad)',
+    'site:unesco.org ("educación inclusiva" OR discapacidad OR accesibilidad)',
+    'site:unicef.org ("educación inclusiva" OR discapacidad OR accesibilidad)',
+    'site:oei.int ("educación inclusiva" OR discapacidad OR accesibilidad)',
+]
+
+FUENTES_INSTITUCIONALES = {
+    "gob.pe",
+    "minedu",
+    "ministerio de educación",
+    "ministerio de educacion",
+    "el peruano",
+    "andina",
+    "conadis",
+    "defensoría del pueblo",
+    "defensoria del pueblo",
+    "unesco",
+    "unicef",
+    "oei",
+    "cepal",
+    "naciones unidas",
+    "onu",
+    "banco mundial",
+    "world bank",
+    "organización mundial de la salud",
+    "organizacion mundial de la salud",
+    "oms",
+    "ops",
+}
+
+MEDIOS_RELEVANTES = {
+    "andina",
+    "el peruano",
+    "rpp",
+    "tvperú",
+    "tvperu",
+    "el comercio",
+    "la república",
+    "la republica",
+    "gestión",
+    "gestion",
+    "agencia efe",
+    "efe",
+    "bbc news mundo",
+    "bbc",
+    "dw español",
+    "dw",
+    "france 24",
+    "cnn en español",
+    "cnn",
+    "el país",
+    "el pais",
+    "américa futura",
+    "america futura",
+    "cadena ser",
+    "europa press",
+]
+
+DOMINIOS_PERMITIDOS = {
+    "gob.pe",
+    "minedu.gob.pe",
+    "elperuano.pe",
+    "andina.pe",
+    "rpp.pe",
+    "tvperu.gob.pe",
+    "elcomercio.pe",
+    "larepublica.pe",
+    "gestion.pe",
+    "efe.com",
+    "bbc.com",
+    "dw.com",
+    "france24.com",
+    "cnn.com",
+    "elpais.com",
+    "cadenaser.com",
+    "europapress.es",
+    "unesco.org",
+    "unicef.org",
+    "oei.int",
+    "cepal.org",
+    "worldbank.org",
+    "who.int",
+    "paho.org",
+}
+
+DOMINIOS_EXCLUIDOS = {
+    "blogspot.com",
+    "wordpress.com",
+    "facebook.com",
+    "instagram.com",
+    "x.com",
+    "twitter.com",
+    "tiktok.com",
+    "youtube.com",
+    "pinterest.com",
+    "medium.com",
+    "reddit.com",
+}
+
+PALABRAS_CLAVE = [
+    "educación inclusiva",
+    "educacion inclusiva",
+    "educación especial",
+    "educacion especial",
+    "discapacidad",
+    "accesibilidad",
+    "inclusión",
+    "inclusion",
+    "cebe",
+    "prite",
+    "saanee",
+    "tea",
+    "tdah",
+    "braille",
+    "lengua de señas",
+    "lengua de senas",
+    "ajustes razonables",
+    "necesidades educativas",
+]
+
+CATEGORIAS = [
+    ("Educación especial", ["cebe", "prite", "saanee", "educación especial", "educacion especial"]),
+    ("Educación inclusiva y políticas públicas", ["educación inclusiva", "educacion inclusiva", "política", "politica", "ministerio", "minedu"]),
+    ("Accesibilidad y derechos", ["accesibilidad", "derechos", "ajustes razonables", "discapacidad"]),
+    ("Neurodiversidad", ["tea", "tdah", "autismo", "neurodiversidad"]),
+    ("Recursos y comunicación accesible", ["braille", "lengua de señas", "lengua de senas", "materiales accesibles"]),
 ]
 
 
+def normalizar(texto):
+    texto = str(texto or "").lower()
+    reemplazos = str.maketrans("áéíóúüñ", "aeiouun")
+    return texto.translate(reemplazos)
+
+
+def limpiar_html(texto):
+    texto = html.unescape(str(texto or ""))
+    texto = re.sub(r"<[^>]+>", " ", texto)
+    texto = re.sub(r"https?://\S+", " ", texto)
+    texto = re.sub(r"\s+", " ", texto).strip()
+    return texto
+
+
+def dominio_base(url):
+    try:
+        netloc = urllib.parse.urlparse(url).netloc.lower()
+        if netloc.startswith("www."):
+            netloc = netloc[4:]
+        return netloc
+    except Exception:
+        return ""
+
+
+def dominio_permitido(url):
+    dominio = dominio_base(url)
+    if not dominio:
+        return False
+    if any(dominio == excluido or dominio.endswith("." + excluido) for excluido in DOMINIOS_EXCLUIDOS):
+        return False
+    return any(dominio == permitido or dominio.endswith("." + permitido) for permitido in DOMINIOS_PERMITIDOS)
+
+
+def fuente_permitida(nombre_fuente, url_fuente):
+    fuente = normalizar(nombre_fuente)
+    url = normalizar(url_fuente)
+
+    if dominio_permitido(url_fuente):
+        return True
+
+    return any(f in fuente or f in url for f in FUENTES_INSTITUCIONALES | MEDIOS_RELEVANTES)
+
+
+def es_tema_relevante(titulo, resumen):
+    contenido = normalizar(f"{titulo} {resumen}")
+    return any(palabra in contenido for palabra in [normalizar(p) for p in PALABRAS_CLAVE])
+
+
+def clasificar_categoria(titulo, resumen):
+    contenido = normalizar(f"{titulo} {resumen}")
+    for categoria, claves in CATEGORIAS:
+        if any(normalizar(clave) in contenido for clave in claves):
+            return categoria
+    return "Inclusión educativa"
+
+
+def fecha_iso(pub_date):
+    if not pub_date:
+        return datetime.now(timezone.utc).date().isoformat()
+    try:
+        from email.utils import parsedate_to_datetime
+        return parsedate_to_datetime(pub_date).date().isoformat()
+    except Exception:
+        return datetime.now(timezone.utc).date().isoformat()
+
+
+def dias_desde(fecha):
+    try:
+        fecha_dt = datetime.fromisoformat(fecha).date()
+        hoy = datetime.now(timezone.utc).date()
+        return (hoy - fecha_dt).days
+    except Exception:
+        return 9999
+
+
+def leer_feed(consulta):
+    url = GOOGLE_NEWS_RSS.format(query=urllib.parse.quote_plus(consulta))
+    solicitud = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    with urllib.request.urlopen(solicitud, timeout=20) as respuesta:
+        contenido = respuesta.read()
+    return ET.fromstring(contenido)
+
+
+def extraer_noticias():
+    noticias = []
+    claves = set()
+
+    for consulta in CONSULTAS:
+        try:
+            raiz = leer_feed(consulta)
+        except Exception:
+            continue
+
+        for item in raiz.findall("./channel/item"):
+            titulo = limpiar_html(item.findtext("title"))
+            resumen = limpiar_html(item.findtext("description"))
+            enlace = item.findtext("link") or ""
+            fecha = fecha_iso(item.findtext("pubDate"))
+            source = item.find("source")
+            fuente = limpiar_html(source.text if source is not None else "Google News")
+            url_fuente = source.attrib.get("url", "") if source is not None else ""
+
+            if not titulo or not enlace:
+                continue
+            if dias_desde(fecha) < 0 or dias_desde(fecha) > DIAS_RELEVANTES:
+                continue
+            if not fuente_permitida(fuente, url_fuente):
+                continue
+            if not es_tema_relevante(titulo, resumen):
+                continue
+
+            clave = normalizar(f"{titulo}-{fuente}")
+            if clave in claves:
+                continue
+            claves.add(clave)
+
+            noticias.append({
+                "titulo": titulo,
+                "fuente": fuente,
+                "fecha": fecha,
+                "categoria": clasificar_categoria(titulo, resumen),
+                "resumen": resumen or "Noticia vinculada con educación inclusiva, accesibilidad o atención a la diversidad.",
+                "url": enlace,
+                "palabras": [p for p in PALABRAS_CLAVE if normalizar(p) in normalizar(f"{titulo} {resumen}")][:5],
+                "tipo_fuente": "Institucional / entidad" if any(f in normalizar(fuente) for f in FUENTES_INSTITUCIONALES) else "Medio relevante",
+            })
+
+    noticias.sort(key=lambda n: n["fecha"], reverse=True)
+
+    recientes = [n for n in noticias if dias_desde(n["fecha"]) <= DIAS_RECIENTES]
+    anteriores = [n for n in noticias if DIAS_RECIENTES < dias_desde(n["fecha"]) <= DIAS_RELEVANTES]
+
+    seleccion = []
+    seleccion.extend(recientes[:4])
+    seleccion.extend(anteriores[: MAX_NOTICIAS - len(seleccion)])
+    seleccion.extend([n for n in noticias if n not in seleccion][: MAX_NOTICIAS - len(seleccion)])
+
+    return seleccion[:MAX_NOTICIAS]
+
+
 def main():
+    noticias = extraer_noticias()
     output = {
         "actualizado": datetime.now(timezone.utc).isoformat(),
-        "noticias": NOTICIAS,
+        "criterio": "Fuentes institucionales, entidades públicas, organismos reconocidos y medios de relevancia informativa.",
+        "noticias": noticias,
     }
     Path("noticias.json").write_text(
         json.dumps(output, ensure_ascii=False, indent=2),
