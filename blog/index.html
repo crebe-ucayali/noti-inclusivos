@@ -3,51 +3,133 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Índice de artículos del Blog Inclusivo de Notiinclusivo.">
+  <meta name="description" content="Índice de artículos del Blog Inclusivo de Notiinclusivo, con lecturas sobre inclusión educativa, accesibilidad, discapacidad y atención a la diversidad.">
+  <meta name="author" content="Gabriel Berrospi">
   <title>Blog Inclusivo | Notiinclusivo</title>
-  <link rel="stylesheet" href="estilos.css?v=2">
+  <link rel="stylesheet" href="../estilos.css?v=4">
+  <link rel="stylesheet" href="estilos.css?v=3">
+  <link rel="stylesheet" href="https://crebe-ucayali.github.io/accesos-complementarios/accesibilidad/accesibilidad.css?v=5">
 </head>
 <body>
-  <header class="cabecera">
-    <div class="contenedor">
-      <p class="etiqueta">Notiinclusivo</p>
+  <a class="salto-contenido" href="#contenido-principal">Ir al contenido</a>
+
+  <header class="cabecera" id="inicio">
+    <div class="patron-portada" aria-hidden="true"></div>
+
+    <nav class="navegacion" aria-label="Navegación principal">
+      <a class="marca-institucional" href="../index.html" aria-label="Volver al inicio de Notiinclusivo">
+        <img class="marca-logo-superior" src="https://crebe-ucayali.github.io/banco-digital-accesible/logo-crebe.png" alt="Logo del CREBE Señor de los Milagros - Ucayali">
+        <span class="marca-texto-superior">
+          <span class="marca-modulo">Notiinclusivo</span>
+          <span class="marca-nombre-institucional">CREBE "Señor de los Milagros" - Ucayali</span>
+          <span class="marca-detalle-institucional">Centro de Recursos de Educación Básica Especial</span>
+        </span>
+      </a>
+
+      <div class="enlaces-cabecera">
+        <a class="enlace-cabecera" href="../index.html">Volver a NI</a>
+        <a class="enlace-cabecera" href="https://crebe-ucayali.github.io/">Inicio principal</a>
+        <a class="enlace-cabecera" href="https://crebe-ucayali.github.io/accesos-complementarios/paginas/contacto.html">Contacto</a>
+      </div>
+    </nav>
+
+    <div class="portada">
+      <p class="etiqueta-superior">Ecosistema Virtual Accesible</p>
       <h1>Blog Inclusivo</h1>
-      <p>Espacio destinado a reunir artículos y lecturas sobre inclusión educativa, accesibilidad, discapacidad y atención a la diversidad.</p>
-      <a class="boton" href="../index.html">Volver a Notiinclusivo</a>
+      <p class="subtitulo">Artículos y lecturas para comprender la inclusión educativa, la accesibilidad, la discapacidad y la atención a la diversidad.</p>
     </div>
   </header>
 
-  <main class="contenedor contenido">
-    <section class="panel">
-      <h2>Publicaciones</h2>
+  <main id="contenido-principal" class="contenido contenido-blog">
+    <section class="contenedor">
+      <div class="panel panel-blog">
+        <p class="categoria">Lectura y reflexión</p>
+        <h2>Un espacio para informarnos y avanzar hacia una comunidad más inclusiva</h2>
+        <p>Este índice reúne las publicaciones del Blog Inclusivo de Notiinclusivo. Cada artículo presenta información organizada, fuentes de consulta y una mirada educativa sobre temas de interés para docentes, familias y comunidad educativa.</p>
+      </div>
+    </section>
 
-      <article class="publicacion">
-        <p class="fecha"><time datetime="2026-07-13">13 de julio de 2026</time></p>
-        <h3>Neurodiversidad: del reconocimiento a los apoyos</h3>
-        <p>Comprender las diferencias neurológicas permite construir entornos más accesibles, respetuosos e inclusivos.</p>
-        <a class="enlace-publicacion" href="13-julio-2026/">Leer artículo</a>
-      </article>
+    <section class="contenedor seccion-publicaciones" aria-labelledby="titulo-publicaciones">
+      <div class="encabezado-listado">
+        <p class="categoria">Archivo de publicaciones</p>
+        <h2 id="titulo-publicaciones">Artículos disponibles</h2>
+      </div>
 
-      <article class="publicacion">
-        <p class="fecha"><time datetime="2026-07-07">7 de julio de 2026</time></p>
-        <h3>Síndrome de Down, ciencia y bioética</h3>
-        <p>Un avance genético abre nuevas posibilidades, pero también preguntas sobre dignidad, diversidad, seguridad e inclusión.</p>
-        <a class="enlace-publicacion" href="7-julio-2026/">Leer artículo</a>
-      </article>
+      <div class="grid-publicaciones">
+        <article class="publicacion-blog">
+          <div class="fecha-visual" aria-hidden="true">
+            <span class="dia">13</span>
+            <span class="mes">Julio</span>
+            <span class="anio">2026</span>
+          </div>
+          <div class="contenido-publicacion">
+            <p class="categoria">Neurodiversidad</p>
+            <p class="fecha-publicacion"><time datetime="2026-07-13">13 de julio de 2026</time></p>
+            <h3>Neurodiversidad: del reconocimiento a los apoyos</h3>
+            <p>Comprender las diferencias neurológicas permite construir entornos más accesibles, respetuosos e inclusivos.</p>
+            <a class="leer-publicacion" href="13-julio-2026/">Leer artículo</a>
+          </div>
+        </article>
 
-      <article class="publicacion">
-        <p class="fecha"><time datetime="2026-06-15">15 de junio de 2026</time></p>
-        <h3>Congreso aprueba dictamen a favor de personas con autismo y discapacidad en el transporte terrestre</h3>
-        <p>La propuesta incorpora medidas de accesibilidad, seguridad y adecuación sensorial en el transporte público terrestre.</p>
-        <a class="enlace-publicacion" href="15-junio-2026/">Leer artículo</a>
-      </article>
+        <article class="publicacion-blog">
+          <div class="fecha-visual" aria-hidden="true">
+            <span class="dia">07</span>
+            <span class="mes">Julio</span>
+            <span class="anio">2026</span>
+          </div>
+          <div class="contenido-publicacion">
+            <p class="categoria">Ciencia y bioética</p>
+            <p class="fecha-publicacion"><time datetime="2026-07-07">7 de julio de 2026</time></p>
+            <h3>Síndrome de Down, ciencia y bioética</h3>
+            <p>Un avance genético abre nuevas posibilidades, pero también preguntas sobre dignidad, diversidad, seguridad e inclusión.</p>
+            <a class="leer-publicacion" href="7-julio-2026/">Leer artículo</a>
+          </div>
+        </article>
+
+        <article class="publicacion-blog">
+          <div class="fecha-visual" aria-hidden="true">
+            <span class="dia">15</span>
+            <span class="mes">Junio</span>
+            <span class="anio">2026</span>
+          </div>
+          <div class="contenido-publicacion">
+            <p class="categoria">Accesibilidad y discapacidad</p>
+            <p class="fecha-publicacion"><time datetime="2026-06-15">15 de junio de 2026</time></p>
+            <h3>Congreso aprueba dictamen a favor de personas con autismo y discapacidad en el transporte terrestre</h3>
+            <p>La propuesta incorpora medidas de accesibilidad, seguridad y adecuación sensorial en el transporte público terrestre.</p>
+            <a class="leer-publicacion" href="15-junio-2026/">Leer artículo</a>
+          </div>
+        </article>
+      </div>
     </section>
   </main>
 
   <footer>
-    <div class="contenedor">
-      <p>CREBE “Señor de los Milagros” – Ucayali</p>
+    <div class="footer-contenido">
+      <div class="footer-bloque footer-identidad">
+        <img class="logo-footer" src="https://crebe-ucayali.github.io/banco-digital-accesible/logo-crebe.png" alt="Logo del CREBE Señor de los Milagros - Ucayali">
+        <div>
+          <h2>Blog Inclusivo</h2>
+          <p>Artículos y lecturas para una comunidad educativa más informada, accesible e inclusiva.</p>
+        </div>
+      </div>
+
+      <div class="footer-bloque">
+        <h2>Enlaces</h2>
+        <p><a href="../index.html">Notiinclusivo</a><br><a href="https://crebe-ucayali.github.io/">Inicio principal</a><br><a href="https://crebe-ucayali.github.io/accesos-complementarios/paginas/contacto.html">Contacto</a></p>
+      </div>
+
+      <div class="footer-bloque">
+        <h2>CREBE Ucayali</h2>
+        <p>Centro de Recursos de Educación Básica Especial "Señor de los Milagros" - Ucayali.</p>
+      </div>
+    </div>
+
+    <div class="footer-final">
+      <p>© 2026 Gabriel Berrospi. Desarrollo original. Uso institucional autorizado al CREBE "Señor de los Milagros" - Ucayali.</p>
     </div>
   </footer>
+
+  <script src="https://crebe-ucayali.github.io/accesos-complementarios/accesibilidad/accesibilidad.js?v=8" defer></script>
 </body>
 </html>
